@@ -15,16 +15,34 @@ export interface CapturedPage {
 }
 
 export async function loadCreds(): Promise<MemoryCreds | null> {
-  const stored = (await chrome.storage.sync.get([
+  // Read from local storage first; one-time migrate any legacy values from sync storage,
+  // which is replicated to Google's servers in plaintext and is a poor place for API keys.
+  const local = (await chrome.storage.local.get([
     "apiKey",
     "workspaceId",
   ])) as Partial<MemoryCreds>;
-  if (!stored.apiKey || !stored.workspaceId) return null;
-  return { apiKey: stored.apiKey, workspaceId: stored.workspaceId };
+  if (local.apiKey && local.workspaceId) {
+    return { apiKey: local.apiKey, workspaceId: local.workspaceId };
+  }
+  const synced = (await chrome.storage.sync.get([
+    "apiKey",
+    "workspaceId",
+  ])) as Partial<MemoryCreds>;
+  if (synced.apiKey && synced.workspaceId) {
+    await chrome.storage.local.set({
+      apiKey: synced.apiKey,
+      workspaceId: synced.workspaceId,
+    });
+    await chrome.storage.sync.remove(["apiKey", "workspaceId"]);
+    return { apiKey: synced.apiKey, workspaceId: synced.workspaceId };
+  }
+  return null;
 }
 
 export async function saveCreds(creds: MemoryCreds): Promise<void> {
-  await chrome.storage.sync.set(creds);
+  await chrome.storage.local.set(creds);
+  // Make sure no stale plaintext copies sit in sync storage.
+  await chrome.storage.sync.remove(["apiKey", "workspaceId"]);
 }
 
 export async function ingestPage(page: CapturedPage): Promise<void> {
