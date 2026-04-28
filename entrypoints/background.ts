@@ -49,20 +49,27 @@ export default defineBackground(() => {
     void (async () => {
       const tabs = await chrome.tabs.query({ currentWindow: true });
       let count = 0;
+      let failed = 0;
       for (const tab of tabs) {
         if (!tab.url || !tab.title || isUnscriptableUrl(tab.url)) continue;
-        const spaceName = await spaceForTab(tab);
-        await ingestPage({
-          source: "arc-tab",
-          url: tab.url,
-          title: tab.title,
-          text: "",
-          capturedAt: new Date().toISOString(),
-          spaceName,
-        });
-        count += 1;
+        try {
+          const spaceName = await spaceForTab(tab);
+          await ingestPage({
+            source: "arc-tab",
+            url: tab.url,
+            title: tab.title,
+            text: "",
+            capturedAt: new Date().toISOString(),
+            spaceName,
+          });
+          count += 1;
+        } catch {
+          // Per-tab failure must not abort the whole batch — otherwise one
+          // unreachable URL leaves the popup hanging waiting for a response.
+          failed += 1;
+        }
       }
-      sendResponse({ ok: true, count });
+      sendResponse({ ok: true, count, failed });
     })();
     return true;
   });
