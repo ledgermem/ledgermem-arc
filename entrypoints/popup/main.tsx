@@ -71,7 +71,7 @@ function App(): JSX.Element {
 
   return (
     <div style={{ width: 320, padding: 12, fontFamily: "system-ui" }}>
-      <h2 style={{ margin: "0 0 8px" }}>LedgerMem for Arc</h2>
+      <h2 style={{ margin: "0 0 8px" }}>Mnemo for Arc</h2>
       <button onClick={handleSavePage} style={{ width: "100%", marginBottom: 6 }}>
         Save current page
       </button>

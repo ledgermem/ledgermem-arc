@@ -1,7 +1,7 @@
 {
-  "name": "@ledgermem/arc",
+  "name": "@getmnemo/arc",
   "version": "0.1.0",
-  "description": "LedgerMem extension for the Arc browser — Boost integration, tidy tab capture, Spaces sync.",
+  "description": "Mnemo extension for the Arc browser — Boost integration, tidy tab capture, Spaces sync.",
   "type": "module",
   "scripts": {
     "dev": "wxt",
@@ -15,7 +15,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@ledgermem/memory": "^0.1.0",
+    "@getmnemo/memory": "^0.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

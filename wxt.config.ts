@@ -3,7 +3,7 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   modules: [],
   manifest: {
-    name: "LedgerMem for Arc",
+    name: "Mnemo for Arc",
     description:
       "Capture Boosts, tidy tabs, and group memories by Arc Space.",
     version: "0.1.0",
@@ -22,7 +22,7 @@ export default defineConfig({
         description: "Save the current Arc Boost site to memory",
       },
     },
-    action: { default_title: "LedgerMem" },
+    action: { default_title: "Mnemo" },
   },
   srcDir: ".",
 });

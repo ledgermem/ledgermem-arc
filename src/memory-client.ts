@@ -1,4 +1,4 @@
-import { LedgerMem } from "@ledgermem/memory";
+import { Mnemo } from "@getmnemo/memory";
 
 export interface MemoryCreds {
   apiKey: string;
@@ -49,10 +49,10 @@ export async function ingestPage(page: CapturedPage): Promise<void> {
   const creds = await loadCreds();
   if (!creds) {
     throw new Error(
-      "LedgerMem credentials not configured. Open the LedgerMem popup → Settings.",
+      "Mnemo credentials not configured. Open the Mnemo popup → Settings.",
     );
   }
-  const memory = new LedgerMem(creds);
+  const memory = new Mnemo(creds);
   const content = `${page.title}\n\n${page.url}\n\n${page.text}`.trim();
   await memory.add(content, {
     metadata: {
