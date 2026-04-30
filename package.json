@@ -1,5 +1,5 @@
 {
-  "name": "@getmnemo/arc",
+  "name": "@mnemo/arc",
   "version": "0.1.0",
   "description": "Mnemo extension for the Arc browser — Boost integration, tidy tab capture, Spaces sync.",
   "type": "module",
@@ -15,7 +15,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@getmnemo/memory": "^0.1.0",
+    "@mnemo/memory": "^0.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
